@@ -1,0 +1,157 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="AvaloniaApplication1.MainWindow"
+        Title="Firma_auto"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Car exist">
+                <Grid>
+                    <Border BorderBrush="Red" BorderThickness="2" Margin="50">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                    
+                            <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,2" HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                <TextBlock Text="Car - 'Brand' 'Model' exist" FontSize="20"/>
+                            </Border>
+                    
+                            <Border Grid.Column="1" Margin="5" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" Width="400"
+                                    VerticalAlignment="Center">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                    <ComboBox HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                                    <ComboBox Margin="0,5,0,0" HorizontalAlignment="Center"/>
+                                    <Button Margin="0,5,0,5" HorizontalAlignment="Center" Content="Select" Name="SelectExistButton"
+                                            BorderBrush="Black" BorderThickness="2" FontWeight="Bold"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Car model">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <DataGrid Grid.Column="0" BorderBrush="Black" BorderThickness="2" Margin="10"
+                              IsReadOnly="false" FontSize="20" Name="InfoAboutCar" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Manufacturer city"/>
+                            <DataGridTextColumn Header="Brand"/>
+                            <DataGridTextColumn Header="Color"/>
+                            <DataGridTextColumn Header="Price"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    
+                    <Border Grid.Column="1" Margin="5" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" Width="400"
+                            VerticalAlignment="Center">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <ComboBox HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                            <Button Margin="0,5,0,5" HorizontalAlignment="Center" Content="Select" Name="SelectInfoButton"
+                                    BorderBrush="Black" BorderThickness="2" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Cars sold">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <DataGrid Grid.Column="0" BorderBrush="Black" BorderThickness="2" Margin="10"
+                              IsReadOnly="false" FontSize="20" Name="InfoAboutSoldCars" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Model"/>
+                            <DataGridTextColumn Header="Sold count"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    
+                    <Border Grid.Column="1" Margin="5" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" Width="400"
+                            VerticalAlignment="Center">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <ComboBox HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                            <Button Margin="0,5,0,5" HorizontalAlignment="Center" Content="Select" Name="SelectSoldCarsButton"
+                                    BorderBrush="Black" BorderThickness="2" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Sum sold auto">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                        
+                    <DataGrid Grid.Column="0" BorderBrush="Black" BorderThickness="2" Margin="10"
+                              IsReadOnly="false" FontSize="20" Name="SumSoldModelAuto" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Model"/>
+                            <DataGridTextColumn Header="Sold sum"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    
+                    <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,0,2" HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="Sum sold all cars - " FontSize="20"/>
+                    </Border>
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Clients">
+                <Grid>
+                    <DataGrid Grid.Column="0" BorderBrush="Black" BorderThickness="2" Margin="10"
+                              IsReadOnly="false" FontSize="20" Name="InfoAboutClients" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="FIO"/>
+                            <DataGridTextColumn Header="Passport"/>
+                            <DataGridTextColumn Header="Address"/>
+                            <DataGridTextColumn Header="Phone"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Cars and clients">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <DataGrid Grid.Column="0" BorderBrush="Black" BorderThickness="2" Margin="10"
+                              IsReadOnly="false" FontSize="20" Name="InfoAboutSoldCarsAndClients" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Client"/>
+                            <DataGridTextColumn Header="Model car"/>
+                            <DataGridTextColumn Header="Brand car"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    
+                    <Border Grid.Column="1" Margin="5" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" Width="400"
+                            VerticalAlignment="Center">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <ComboBox HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                            <Button Margin="0,5,0,5" HorizontalAlignment="Center" Content="Select" Name="SelectTypePurchaseButton"
+                                    BorderBrush="Black" BorderThickness="2" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
