@@ -11,7 +11,7 @@ public partial class Purchase
 
     public int ClientIdFk { get; set; }
 
-    public DateOnly DatePurchase { get; set; }
+    public DateTime DatePurchase { get; set; }
 
     public int TypePurchaseIdFk { get; set; }
 
