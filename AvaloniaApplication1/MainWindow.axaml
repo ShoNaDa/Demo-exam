@@ -8,6 +8,7 @@
         WindowStartupLocation="CenterScreen">
     <Grid>
         <TabControl>
+            <!-- 1 window -->
             <TabItem Header="Car exist">
                 <Grid>
                     <Border BorderBrush="Red" BorderThickness="2" Margin="50">
@@ -19,16 +20,28 @@
                     
                             <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,2" HorizontalAlignment="Center"
                                     VerticalAlignment="Center">
-                                <TextBlock Text="Car - 'Brand' 'Model' exist" FontSize="20"/>
+                                <TextBlock Text="Car - 'Brand' 'Model' exist" FontSize="20" Name="CarTextBlock"/>
                             </Border>
                     
                             <Border Grid.Column="1" Margin="5" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" Width="400"
                                     VerticalAlignment="Center">
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                                    <ComboBox HorizontalAlignment="Center" Margin="0,5,0,0" Name="ListModelCB"/>
-                                    <ComboBox Margin="0,5,0,0" HorizontalAlignment="Center" Name="ListBrandCB"/>
+                                    <ComboBox HorizontalAlignment="Center" Margin="0,5,0,0" Name="ListBrandCB" SelectionChanged="ListBrandCB_OnSelectionChanged">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Brand}"/>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <ComboBox Margin="0,5,0,0" HorizontalAlignment="Center" Name="ListModelCB">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Model}"/>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
                                     <Button Margin="0,5,0,5" HorizontalAlignment="Center" Content="Select" Name="SelectExistButton"
-                                            BorderBrush="Black" BorderThickness="2" FontWeight="Bold"/>
+                                            BorderBrush="Black" BorderThickness="2" FontWeight="Bold" Click="SelectExistButton_OnClick"/>
                                 </StackPanel>
                             </Border>
                         </Grid>
@@ -36,6 +49,7 @@
                 </Grid>
             </TabItem>
             
+            <!-- 2 window -->
             <TabItem Header="Car model">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -46,19 +60,25 @@
                     <DataGrid Grid.Column="0" BorderBrush="Black" BorderThickness="2" Margin="10"
                               IsReadOnly="false" FontSize="20" Name="InfoAboutCar" AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Manufacturer city"/>
-                            <DataGridTextColumn Header="Brand"/>
-                            <DataGridTextColumn Header="Color"/>
-                            <DataGridTextColumn Header="Price"/>
+                            <DataGridTextColumn Header="Manufacturer city" Binding="{Binding ManufCountry}"/>
+                            <DataGridTextColumn Header="Brand" Binding="{Binding Brand}"/>
+                            <DataGridTextColumn Header="Color" Binding="{Binding Color}"/>
+                            <DataGridTextColumn Header="Price" Binding="{Binding Price}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     
                     <Border Grid.Column="1" Margin="5" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" Width="400"
                             VerticalAlignment="Center">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                            <ComboBox HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                            <ComboBox HorizontalAlignment="Center" Margin="0,5,0,0" Name="ListModels">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Model}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
                             <Button Margin="0,5,0,5" HorizontalAlignment="Center" Content="Select" Name="SelectInfoButton"
-                                    BorderBrush="Black" BorderThickness="2" FontWeight="Bold"/>
+                                    BorderBrush="Black" BorderThickness="2" FontWeight="Bold" Click="SelectInfoButton_OnClick"/>
                         </StackPanel>
                     </Border>
                 </Grid>
