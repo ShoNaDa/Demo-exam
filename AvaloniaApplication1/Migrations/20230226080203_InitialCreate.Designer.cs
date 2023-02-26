@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AvaloniaApplication1.Migrations
 {
     [DbContext(typeof(Gr692BvvContext))]
-    [Migration("20230225133542_InitialCreate")]
+    [Migration("20230226080203_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

@@ -84,6 +84,7 @@
                 </Grid>
             </TabItem>
             
+            <!-- 3 window -->
             <TabItem Header="Cars sold">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -94,22 +95,29 @@
                     <DataGrid Grid.Column="0" BorderBrush="Black" BorderThickness="2" Margin="10"
                               IsReadOnly="false" FontSize="20" Name="InfoAboutSoldCars" AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Model"/>
-                            <DataGridTextColumn Header="Sold count"/>
+                            <DataGridTextColumn Header="Model" Binding="{Binding Model}"/>
+                            <DataGridTextColumn Header="Sold count" Binding="{Binding Count}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     
                     <Border Grid.Column="1" Margin="5" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" Width="400"
                             VerticalAlignment="Center">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                            <ComboBox HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                            <ComboBox HorizontalAlignment="Center" Margin="0,5,0,0" Name="ListBrand">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Brand}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
                             <Button Margin="0,5,0,5" HorizontalAlignment="Center" Content="Select" Name="SelectSoldCarsButton"
-                                    BorderBrush="Black" BorderThickness="2" FontWeight="Bold"/>
+                                    BorderBrush="Black" BorderThickness="2" FontWeight="Bold" Click="SelectSoldCarsButton_OnClick"/>
                         </StackPanel>
                     </Border>
                 </Grid>
             </TabItem>
             
+            <!-- 4 window -->
             <TabItem Header="Sum sold auto">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -120,32 +128,35 @@
                     <DataGrid Grid.Column="0" BorderBrush="Black" BorderThickness="2" Margin="10"
                               IsReadOnly="false" FontSize="20" Name="SumSoldModelAuto" AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Model"/>
-                            <DataGridTextColumn Header="Sold sum"/>
+                            <DataGridTextColumn Header="Brand" Binding="{Binding Brand}"/>
+                            <DataGridTextColumn Header="Model" Binding="{Binding Model}"/>
+                            <DataGridTextColumn Header="Sold sum" Binding="{Binding Sum}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     
                     <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,0,2" HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                        <TextBlock Text="Sum sold all cars - " FontSize="20"/>
+                        <TextBlock Text="Sum sold all cars - " FontSize="20" Name="AllSumTextBlock"/>
                     </Border>
                 </Grid>
             </TabItem>
             
+            <!-- 5 window -->
             <TabItem Header="Clients">
                 <Grid>
                     <DataGrid Grid.Column="0" BorderBrush="Black" BorderThickness="2" Margin="10"
                               IsReadOnly="false" FontSize="20" Name="InfoAboutClients" AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="FIO"/>
-                            <DataGridTextColumn Header="Passport"/>
-                            <DataGridTextColumn Header="Address"/>
-                            <DataGridTextColumn Header="Phone"/>
+                            <DataGridTextColumn Header="FIO" Binding="{Binding Fio}"/>
+                            <DataGridTextColumn Header="Passport" Binding="{Binding Passport}"/>
+                            <DataGridTextColumn Header="Address" Binding="{Binding Address}"/>
+                            <DataGridTextColumn Header="Phone" Binding="{Binding Phone}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
             </TabItem>
             
+            <!-- 6 window -->
             <TabItem Header="Cars and clients">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -156,18 +167,24 @@
                     <DataGrid Grid.Column="0" BorderBrush="Black" BorderThickness="2" Margin="10"
                               IsReadOnly="false" FontSize="20" Name="InfoAboutSoldCarsAndClients" AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Client"/>
-                            <DataGridTextColumn Header="Model car"/>
-                            <DataGridTextColumn Header="Brand car"/>
+                            <DataGridTextColumn Header="Client" Binding="{Binding Client}"/>
+                            <DataGridTextColumn Header="Model car" Binding="{Binding Model}"/>
+                            <DataGridTextColumn Header="Brand car" Binding="{Binding Brand}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     
                     <Border Grid.Column="1" Margin="5" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" Width="400"
                             VerticalAlignment="Center">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                            <ComboBox HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                            <ComboBox HorizontalAlignment="Center" Margin="0,5,0,0" Name="listTypes">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding TypeId}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
                             <Button Margin="0,5,0,5" HorizontalAlignment="Center" Content="Select" Name="SelectTypePurchaseButton"
-                                    BorderBrush="Black" BorderThickness="2" FontWeight="Bold"/>
+                                    BorderBrush="Black" BorderThickness="2" FontWeight="Bold" Click="SelectTypePurchaseButton_OnClick"/>
                         </StackPanel>
                     </Border>
                 </Grid>

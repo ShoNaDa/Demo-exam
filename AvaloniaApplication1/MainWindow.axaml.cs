@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -95,9 +96,47 @@ public partial class MainWindow : Window
             //binding 2 window
             ListModels.Items = db.Products.GroupBy(p => p.Model).Select(p => p.FirstOrDefault()).ToList();
             ListModels.SelectedIndex = 0;
+
+            //binding 3 window
+            ListBrand.Items = db.Products.GroupBy(p => p.Brand).Select(p => p.FirstOrDefault()).ToList();
+            ListBrand.SelectedIndex = 0;
+
+            //binding 4 window
+            double allSum = 0;
+            List<SumsSoldsCars> listSumsSoldCasrs = new List<SumsSoldsCars>();
+
+            foreach (var item in db.Purchases.ToList())
+            {
+                var car = new SumsSoldsCars
+                {
+                    Brand = db.Products.FirstOrDefault(p => p.ProductId == item.ProductIdFk).Brand,
+                    Model = db.Products.FirstOrDefault(p => p.ProductId == item.ProductIdFk).Model,
+                    Sum = db.Products.FirstOrDefault(p => p.ProductId == item.ProductIdFk).Price,
+                };
+                if (!listSumsSoldCasrs.Exists(c => c.Brand == car.Brand))
+                    listSumsSoldCasrs.Add(car);
+                else
+                {
+                    listSumsSoldCasrs.FirstOrDefault(c => c.Model == car.Model).Sum +=
+                        db.Products.FirstOrDefault(p => p.Model == car.Model).Price;
+                }
+
+                allSum += (double)db.Products.FirstOrDefault(p => p.ProductId == item.ProductIdFk).Price;
+            }
+
+            SumSoldModelAuto.Items = listSumsSoldCasrs;
+            AllSumTextBlock.Text = $"Sum sold all cars - {allSum}";
+
+            //binding 5 window
+            InfoAboutClients.Items = db.Clients.ToList();
+
+            //binding 6 window
+            listTypes.Items = db.TypesPurchases.ToList();
+            listTypes.SelectedIndex = 0;
         }
     }
 
+    //window 1
     private void SelectExistButton_OnClick(object? sender, RoutedEventArgs e)
     {
         string selectedBrand, selectedModel;
@@ -130,11 +169,93 @@ public partial class MainWindow : Window
         }
     }
 
+    //window 2
     private void SelectInfoButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        using (Gr692BvvContext db = new Gr692BvvContext())
+        if (ListModels.SelectedIndex != -1)
         {
-            InfoAboutCar.Items = db.Products.ToList().Where(p => p.Model == ((Product)ListModels.SelectedItem).Model);
+            using (Gr692BvvContext db = new Gr692BvvContext())
+            {
+                InfoAboutCar.Items =
+                    db.Products.ToList().Where(p => p.Model == ((Product)ListModels.SelectedItem).Model);
+            }
+        }
+    }
+
+    //window 3
+    private void SelectSoldCarsButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (ListBrand.SelectedIndex != -1)
+        {
+            List<SoldsCars> listSoldCasr = new List<SoldsCars>();
+
+            using (Gr692BvvContext db = new Gr692BvvContext())
+            {
+                foreach (var item in db.Purchases
+                             .Where(p => p.ProductIdFk == ((Product)ListBrand.SelectedItem).ProductId).ToList())
+                {
+                    var car = new SoldsCars
+                    {
+                        Model = db.Products.ToList().FirstOrDefault(p => p.ProductId == item.ProductIdFk).Model,
+                        Count = 1
+                    };
+                    if (!listSoldCasr.Exists(c => c.Model == car.Model))
+                        listSoldCasr.Add(car);
+                    else
+                        listSoldCasr.FirstOrDefault(c => c.Model == car.Model).Count++;
+                }
+
+                InfoAboutSoldCars.Items = listSoldCasr;
+            }
+        }
+    }
+
+    private class SoldsCars
+    {
+        public string? Model { get; set; }
+
+        public int? Count { get; set; }
+    }
+
+    private class SumsSoldsCars
+    {
+        public string? Brand { get; set; }
+
+        public string? Model { get; set; }
+
+        public decimal? Sum { get; set; }
+    }
+
+    private class InfoAboutPurchases
+    {
+        public string? Client { get; set; }
+
+        public string? Model { get; set; }
+
+        public string? Brand { get; set; }
+    }
+
+    //window 6
+    private void SelectTypePurchaseButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (listTypes.SelectedIndex != -1)
+        {
+            List<InfoAboutPurchases> listAboutPurchases = new List<InfoAboutPurchases>();
+
+            using (Gr692BvvContext db = new Gr692BvvContext())
+            {
+                foreach (var item in db.Purchases.Where(p =>
+                             p.TypePurchaseIdFk == ((TypesPurchase)listTypes.SelectedItem).TypeId).ToList())
+                {
+                    listAboutPurchases.Add(new InfoAboutPurchases
+                    {
+                        Brand = db.Products.FirstOrDefault(p => p.ProductId == item.ProductIdFk).Brand,
+                        Model = db.Products.FirstOrDefault(p => p.ProductId == item.ProductIdFk).Model,
+                        Client = db.Clients.FirstOrDefault(c => c.ClientId == item.ClientIdFk).Fio
+                    });
+                }
+            }
+            InfoAboutSoldCarsAndClients.Items = listAboutPurchases;
         }
     }
 }
