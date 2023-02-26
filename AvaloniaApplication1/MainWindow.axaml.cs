@@ -106,7 +106,7 @@ public partial class MainWindow : Window
 
         using (Gr692BvvContext db = new Gr692BvvContext())
         {
-            int countCars = db.Products.ToList().Where(p => p.Brand == selectedBrand && p.Model == selectedModel)
+            int? countCars = db.Products.ToList().Where(p => p.Brand == selectedBrand && p.Model == selectedModel)
                 .FirstOrDefault().Count;
 
             if (countCars != 0)
