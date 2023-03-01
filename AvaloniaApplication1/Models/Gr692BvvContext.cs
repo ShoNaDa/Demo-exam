@@ -23,7 +23,7 @@ public partial class Gr692BvvContext : DbContext
     public virtual DbSet<TypesPurchase> TypesPurchases { get; set; }
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseNpgsql("Host=localhost;Port=5433;Database=postgres;Username=postgres;Password=300 bucks");
+        => optionsBuilder.UseNpgsql("Host=10.30.0.137;Port=5432;Database=gr692_bvv;Username=gr692_bvv;Password=300 bucks");
     
      protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

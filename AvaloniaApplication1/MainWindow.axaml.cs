@@ -85,54 +85,7 @@ public partial class MainWindow : Window
 
             #endregion
 
-            //binding 1 window
-            CarTextBlock.Text = "Car - '' '' exist";
-
-            ListBrandCB.Items = db.Products.GroupBy(p => p.Brand).Select(p => p.FirstOrDefault()).ToList();
-            ListBrandCB.SelectedIndex = 0;
-            ListModelCB.Items = db.Products.ToList().Where(p => p.Brand == ((Product)ListBrandCB.SelectedItem).Brand);
-            ListModelCB.SelectedIndex = 0;
-
-            //binding 2 window
-            ListModels.Items = db.Products.GroupBy(p => p.Model).Select(p => p.FirstOrDefault()).ToList();
-            ListModels.SelectedIndex = 0;
-
-            //binding 3 window
-            ListBrand.Items = db.Products.GroupBy(p => p.Brand).Select(p => p.FirstOrDefault()).ToList();
-            ListBrand.SelectedIndex = 0;
-
-            //binding 4 window
-            double allSum = 0;
-            List<SumsSoldsCars> listSumsSoldCasrs = new List<SumsSoldsCars>();
-
-            foreach (var item in db.Purchases.ToList())
-            {
-                var car = new SumsSoldsCars
-                {
-                    Brand = db.Products.FirstOrDefault(p => p.ProductId == item.ProductIdFk).Brand,
-                    Model = db.Products.FirstOrDefault(p => p.ProductId == item.ProductIdFk).Model,
-                    Sum = db.Products.FirstOrDefault(p => p.ProductId == item.ProductIdFk).Price,
-                };
-                if (!listSumsSoldCasrs.Exists(c => c.Brand == car.Brand))
-                    listSumsSoldCasrs.Add(car);
-                else
-                {
-                    listSumsSoldCasrs.FirstOrDefault(c => c.Model == car.Model).Sum +=
-                        db.Products.FirstOrDefault(p => p.Model == car.Model).Price;
-                }
-
-                allSum += (double)db.Products.FirstOrDefault(p => p.ProductId == item.ProductIdFk).Price;
-            }
-
-            SumSoldModelAuto.Items = listSumsSoldCasrs;
-            AllSumTextBlock.Text = $"Sum sold all cars - {allSum}";
-
-            //binding 5 window
-            InfoAboutClients.Items = db.Clients.ToList();
-
-            //binding 6 window
-            listTypes.Items = db.TypesPurchases.ToList();
-            listTypes.SelectedIndex = 0;
+            Load();
         }
     }
 
@@ -255,7 +208,140 @@ public partial class MainWindow : Window
                     });
                 }
             }
+
             InfoAboutSoldCarsAndClients.Items = listAboutPurchases;
+        }
+    }
+
+    private void Load()
+    {
+        using (Gr692BvvContext db = new Gr692BvvContext())
+        {
+            //binding 1 window
+            CarTextBlock.Text = "Car - '' '' exist";
+
+            ListBrandCB.Items = db.Products.GroupBy(p => p.Brand).Select(p => p.FirstOrDefault()).ToList();
+            ListBrandCB.SelectedIndex = 0;
+            ListModelCB.Items = db.Products.ToList().Where(p => p.Brand == ((Product)ListBrandCB.SelectedItem).Brand);
+            ListModelCB.SelectedIndex = 0;
+
+            //binding 2 window
+            ListModels.Items = db.Products.GroupBy(p => p.Model).Select(p => p.FirstOrDefault()).ToList();
+            ListModels.SelectedIndex = 0;
+
+            //binding 3 window
+            ListBrand.Items = db.Products.GroupBy(p => p.Brand).Select(p => p.FirstOrDefault()).ToList();
+            ListBrand.SelectedIndex = 0;
+
+            //binding 4 window
+            double allSum = 0;
+            List<SumsSoldsCars> listSumsSoldCasrs = new List<SumsSoldsCars>();
+
+            foreach (var item in db.Purchases.ToList())
+            {
+                var car = new SumsSoldsCars
+                {
+                    Brand = db.Products.FirstOrDefault(p => p.ProductId == item.ProductIdFk).Brand,
+                    Model = db.Products.FirstOrDefault(p => p.ProductId == item.ProductIdFk).Model,
+                    Sum = db.Products.FirstOrDefault(p => p.ProductId == item.ProductIdFk).Price,
+                };
+                if (!listSumsSoldCasrs.Exists(c => c.Brand == car.Brand))
+                    listSumsSoldCasrs.Add(car);
+                else
+                {
+                    listSumsSoldCasrs.FirstOrDefault(c => c.Model == car.Model).Sum +=
+                        db.Products.FirstOrDefault(p => p.Model == car.Model).Price;
+                }
+
+                allSum += (double)db.Products.FirstOrDefault(p => p.ProductId == item.ProductIdFk).Price;
+            }
+
+            SumSoldModelAuto.Items = listSumsSoldCasrs;
+            AllSumTextBlock.Text = $"Sum sold all cars - {allSum}";
+
+            //binding 5 window
+            InfoAboutClients.Items = db.Clients.ToList();
+            ListClients.Items = db.Clients.ToList();
+            ListClients.SelectedIndex = 0;
+
+            //binding 6 window
+            listTypes.Items = db.TypesPurchases.ToList();
+            listTypes.SelectedIndex = 0;
+        }
+    }
+
+    private void AddClientButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (!string.IsNullOrEmpty(FIO_add.Text) && !string.IsNullOrEmpty(address_add.Text) &&
+            !string.IsNullOrEmpty(passport_add.Text) && !string.IsNullOrEmpty(phone_add.Text))
+        {
+            using (Gr692BvvContext db = new Gr692BvvContext())
+            {
+                db.Clients.Add(new Client
+                {
+                    Fio = FIO_add.Text,
+                    Address = address_add.Text,
+                    Passport = passport_add.Text,
+                    Phone = phone_add.Text
+                });
+
+                db.SaveChanges();
+                Load();
+            }
+        }
+    }
+
+    private void EditClientButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (listTypes.SelectedIndex != -1)
+        {
+            if (!string.IsNullOrEmpty(FIO_edit.Text) && !string.IsNullOrEmpty(address_edit.Text) &&
+                !string.IsNullOrEmpty(passport_edit.Text) && !string.IsNullOrEmpty(phone_edit.Text))
+            {
+                using (Gr692BvvContext db = new Gr692BvvContext())
+                {
+                    var client = db.Clients
+                        .FirstOrDefault(c => c.ClientId == ((Client)ListClients.SelectedItem).ClientId);
+
+                    client.Fio = FIO_edit.Text;
+                    client.Address = address_edit.Text;
+                    client.Passport = passport_edit.Text;
+                    client.Phone = phone_edit.Text;
+
+                    db.SaveChanges();
+                    Load();
+                }
+            }
+        }
+    }
+
+    private void ListTypes_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        using (Gr692BvvContext db = new Gr692BvvContext())
+        {
+            if (ListClients.SelectedItem != null)
+            {
+                var select_client = db.Clients.ToList()
+                    .FirstOrDefault(c => c.ClientId == ((Client)ListClients.SelectedItem).ClientId);
+                FIO_edit.Text = select_client.Fio;
+                address_edit.Text = select_client.Address;
+                passport_edit.Text = select_client.Passport;
+                phone_edit.Text = select_client.Phone;
+            }
+        }
+    }
+
+    private void DeleteClientButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (InfoAboutClients.SelectedItem != null)
+        {
+            using (Gr692BvvContext db = new Gr692BvvContext())
+            {
+                db.Clients.Remove(((Client)InfoAboutClients.SelectedItem));
+
+                db.SaveChanges();
+                Load();
+            }
         }
     }
 }
